@@ -1,0 +1,22 @@
+apiVersion: kops.k8s.io/v1alpha2
+kind: InstanceGroup
+metadata:
+  labels:
+    kops.k8s.io/cluster: your.cluster.name
+  name: nodes-mixed
+spec:
+  cloudLabels:
+    role: compute
+  image: coreos.com/CoreOS-stable-1911.4.0-hvm
+  machineType: m4.large
+  maxSize: 50
+  minSize: 10
+  maxPrice: "1.0"
+  mixedInstancesPolicy:
+    instances:
+      - m4.xlarge
+      - m5.large
+      - m5.xlarge
+      - t2.medium
+    onDemandAboveBase: 5
+    spotInstancePools: 3

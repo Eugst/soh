@@ -1,0 +1,46 @@
+apiVersion: kops.k8s.io/v1alpha2
+kind: Cluster
+metadata:
+  name: my-cluster.example.com
+spec:
+  additionalPolicies: []
+  cloudPRovider: aws
+  clusterAutoscaler:
+    enabled: true
+    expander: least-waste
+    balanceSimilarNodeGroups: false
+    awsUseStaticInstanceList: false
+    scaleDownUtilizationThreshold: 0.5
+    skipNodesWithCustomControllerPods: true
+    skipNodesWithLocalStorage: true
+    skipNodesWithSystemPods: true
+    newPodScaleUpDelay: 0s
+    scaleDownDelayAfterAdd: 10m0s
+    scaleDownUnneededTime: 10m0s
+    scaleDownUnreadyTime: 20m0s
+    image: ami-0c94855ba95c71c99
+    cpuRequest: "100m"
+    memoryRequest: "300Mi"
+  etcdClusters:
+    - etcdMembers:
+        - instanceGroup: ig-master-1a
+          name: a
+        - instanceGroup: ig-master-1b
+          name: b
+        - instanceGroup: ig-master-1c
+          name: c
+  kubernetesVersion: 1.29.0
+  networkCIDR: 10.0.0.0/16
+  subnets:
+    - name: subnet-a
+      cidr: 10.0.1.0/24
+      availabilityZone: us-west-1a
+    - name: subnet-b
+      cidr: 10.0.2.0/24
+      availabilityZone: us-west-1b
+    - name: subnet-c
+      cidr: 10.0.3.0/24
+      availabilityZone: us-west-1c
+  topology:
+    masters: public
+    nodes: public

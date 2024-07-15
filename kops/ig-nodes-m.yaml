@@ -1,0 +1,14 @@
+apiVersion: kops.k8s.io/v1alpha2
+kind: InstanceGroup
+metadata:
+  name: autoscaling-group
+spec:
+  maxSize: 5
+  minSize: 1
+  role: Node
+  machineType: m5.large
+  image: ami-12345678
+  subnets:
+    - us-west-1a
+    - us-west-1b
+    - us-west-1c
